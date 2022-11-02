@@ -1,17 +1,13 @@
 import React from "react";
-import ScoreBoard from "../ScoreBoard/ScoreBoard";
-import {
-  GameBoardStructure,
-  GameMark,
-  useScoringSystem,
-} from "../ScoringSystem/useScoringSystem";
+import { GameMark, useGameSystem } from "../Hooks/GameSystem/useGameSystem";
 
 type Props = {};
 
-type SquareProps = { handleSquareClick(): void; value: GameMark };
+type SquareProps = { handleSquareClick(): void; gameValue: GameMark };
 
-const Game = (props: Props) => {
-  const { gameBoard, setItemInGameBoard, playerTurn } = useScoringSystem();
+const Game = () => {
+  const { gameBoard, setItemInGameBoard, playerTurn, gameWinner, resetBoard } =
+    useGameSystem();
 
   const handleClick = (column: number, row: number) => {
     setItemInGameBoard(column, row);
@@ -20,14 +16,14 @@ const Game = (props: Props) => {
   console.table(gameBoard);
 
   const Square: React.FC<SquareProps> = ({ ...props }) => {
-    const { handleSquareClick, value } = props;
+    const { handleSquareClick, gameValue } = props;
     return (
       <button
-        className=" w-28 h-28 bg-slate-400 border-2"
+        className=" w-full h-36 bg-slate-400 border-2"
         onClick={handleSquareClick}
-        disabled={value !== null}
+        disabled={gameValue !== null}
       >
-        {value && <span className=" text-lg text-black">{value}</span>}
+        {gameValue && <span className=" text-lg text-black">{gameValue}</span>}
       </button>
     );
   };
@@ -35,22 +31,25 @@ const Game = (props: Props) => {
   return (
     <div>
       <h1>TicTacToe</h1>
-      <div> Currently Playing: {playerTurn}</div>
-      <div className="grid grid-cols-3 items-center w-1/2 m-auto">
-        {gameBoard.map((row, rowIndex) => (
+      {!gameWinner && <div> Currently Playing: {playerTurn}</div>}
+      {gameWinner !== "tied" && gameWinner !== null && (
+        <h2>{gameWinner} won this round!</h2>
+      )}
+      {gameWinner == "tied" && <h2>Oops the game is tied!</h2>}
+      <div className="grid grid-cols-3 items-center w-1/2 m-auto place-items-center">
+        {gameBoard.map((row: any[], rowIndex: number) => (
           <>
-            {row.map((item, columnIndex) => (
+            {row.map((item: GameMark, columnIndex: number) => (
               <Square
                 key={columnIndex}
                 handleSquareClick={() => handleClick(rowIndex, columnIndex)}
-                value={item}
+                gameValue={item}
               />
             ))}
           </>
         ))}
       </div>
-
-      <ScoreBoard />
+      {gameWinner && <button onClick={resetBoard}> Play Again </button>}
     </div>
   );
 };
