@@ -6,7 +6,7 @@ import ScoreContextProvider from "./_Context/ScoreContext";
 
 function App() {
   return (
-    <div className="">
+    <div className=" w-3/4 md:w-[520px] m-auto">
       <ScoreContextProvider>
         <Game />
       </ScoreContextProvider>

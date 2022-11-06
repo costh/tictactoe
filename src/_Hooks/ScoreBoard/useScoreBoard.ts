@@ -29,7 +29,7 @@ export const useScoreBoard = (): ScoreBoardReturnType => {
     const tally = [...scoreBoard.tally];
     let currentWinner = () => {
       if (winner === null) {
-        return "tied";
+        return "Tied";
       }
       return winner === playerTurnType.one ? playerOneName : playerTwoName;
     };
