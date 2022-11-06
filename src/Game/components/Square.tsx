@@ -5,21 +5,28 @@ import { ReactComponent as OIcon } from "../../_Assets/o.svg";
 
 export const Square: React.FC<SquareProps> = ({ ...props }) => {
   const { handleSquareClick, gameValue, positionX, positionY } = props;
+
+  const isXActive = gameValue === "X";
+  const isYActive = gameValue === "O";
+
   return (
     <button
       data-xy-position={`${positionX}${positionY}`}
-      className=" w-full h-36 flex items-center justify-center flex-col bg-blue-500 border-2"
+      className=" w-full h-40 flex items-center justify-center flex-col bg-blue-500 border-2"
       onClick={handleSquareClick}
       disabled={gameValue !== null}
+      aria-label={`${!gameValue ? "Unplayed Tile" : gameValue}`}
     >
       <XIcon
+        aria-hidden={isXActive}
         className={`transition-all duration-100 ${
-          gameValue === "X" ? "w-10 h-10 visible" : "h-0 invisible"
+          isXActive ? "w-10 h-10 visible" : "h-0 invisible"
         }`}
       />
       <OIcon
+        aria-hidden={isYActive}
         className={`fill-white transition-all  ${
-          gameValue === "O" ? "w-11 h-11" : "h-0"
+          isYActive ? "w-11 h-11" : "h-0"
         }`}
       />
     </button>

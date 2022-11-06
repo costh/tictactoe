@@ -16,7 +16,7 @@ export function useGameSystem(): useGameSystemReturnType {
     [null, null, null],
   ];
 
-  const { setWinner } = useScoreContext();
+  const { setWinner: setScoreBoardWinner } = useScoreContext();
 
   const [gameBoard, setGameBoard] = useState<GameBoardStructure>(emptyBoard);
 
@@ -44,13 +44,13 @@ export function useGameSystem(): useGameSystemReturnType {
 
     if (checkBoardForWin(gameBoard)) {
       setGameWinner(playerTurn);
-      setWinner(playerTurn);
       setIsGameFinished(true);
+      setScoreBoardWinner(playerTurn);
       return;
     }
 
     if (checkifGameTied(gameBoard)) {
-      setWinner(null);
+      setScoreBoardWinner(null);
       setIsGameFinished(true);
       return;
     }

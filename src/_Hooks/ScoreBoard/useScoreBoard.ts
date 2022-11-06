@@ -4,7 +4,7 @@ import { ScoreBoardType, gameState } from "./types";
 
 export type ScoreBoardReturnType = {
   scoreBoard: ScoreBoardType;
-  setWinner: (winner: gameState["winner"] | null) => void;
+  setWinner: (winner: playerTurnType | null) => void;
   playerOneName: gameState["player1"];
   playerTwoName: gameState["player2"];
   setPlayerOneName: (name: gameState["player1"]) => void;
@@ -23,14 +23,11 @@ export const useScoreBoard = (): ScoreBoardReturnType => {
     playerTurnType.two
   );
 
-  const setWinner = (winner: gameState["winner"] | null) => {
+  const setWinner = (winner: playerTurnType | null) => {
     const sb = scoreBoard;
     const games = [...scoreBoard.games];
     const tally = [...scoreBoard.tally];
     let currentWinner = () => {
-      if (winner === null) {
-        return "Tied";
-      }
       return winner === playerTurnType.one ? playerOneName : playerTwoName;
     };
 
@@ -38,6 +35,7 @@ export const useScoreBoard = (): ScoreBoardReturnType => {
       player1: playerOneName,
       player2: playerTwoName,
       winner: currentWinner(),
+      isTied: winner === null,
     });
 
     setScoreBoard({ tally, games });

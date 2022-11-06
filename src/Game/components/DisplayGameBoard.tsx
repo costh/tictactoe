@@ -11,7 +11,7 @@ function DisplayGameBoard({ gameBoard, handleClick }: Props) {
   return (
     <div className="grid grid-cols-3 items-center place-items-center">
       {gameBoard.map((row: any[], rowIndex: number) => (
-        <>
+        <React.Fragment key={rowIndex}>
           {row.map((item: GameMark, columnIndex: number) => (
             <Square
               key={columnIndex}
@@ -21,7 +21,7 @@ function DisplayGameBoard({ gameBoard, handleClick }: Props) {
               gameValue={item}
             />
           ))}
-        </>
+        </React.Fragment>
       ))}
     </div>
   );

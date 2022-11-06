@@ -4,6 +4,7 @@ export type gameState = {
   player1: playerTurnType.one | string;
   player2: playerTurnType.two | string;
   winner: playerTurnType | string;
+  isTied: boolean;
 };
 
 export type tallyType = { player: gameState["winner"]; wins: number };
