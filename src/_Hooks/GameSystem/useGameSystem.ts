@@ -1,37 +1,13 @@
 import { useState } from "react";
+import { useScoreContext } from "../../_Context/ScoreContext";
+import { useScoreBoard } from "../ScoreBoard/useScoreBoard";
+import { checkBoardForWin, checkifGameTied } from "./helpers";
 import {
-  isHorizontalWin,
-  isVerticalWin,
-  isDiagonalWin,
-  checkBoardForWin,
-} from "./helpers";
-
-export enum playerTurnType {
-  one = "Player One",
-  two = "Player Two",
-}
-
-export type GameMark = "X" | "O" | null;
-
-export type GameBoardStructure = [
-  [GameMark, GameMark, GameMark],
-  [GameMark, GameMark, GameMark],
-  [GameMark, GameMark, GameMark]
-];
-
-type GameWinnerType = playerTurnType | null | "tied";
-
-type useGameSystemReturnType = {
-  gameBoard: GameBoardStructure;
-  playerTurn: playerTurnType;
-  gameWinner: GameWinnerType;
-  resetBoard: () => void;
-  setItemInGameBoard: (row: number, column: number) => void;
-};
-
-const checkifGameTied = (gameBoard: GameBoardStructure) => {
-  return gameBoard.flat(1).every((item) => item !== null);
-};
+  GameBoardStructure,
+  useGameSystemReturnType,
+  GameWinnerType,
+  playerTurnType,
+} from "./types";
 
 export function useGameSystem(): useGameSystemReturnType {
   const emptyBoard: GameBoardStructure = [
@@ -39,9 +15,14 @@ export function useGameSystem(): useGameSystemReturnType {
     [null, null, null],
     [null, null, null],
   ];
+
+  const { setWinner } = useScoreContext();
+
   const [gameBoard, setGameBoard] = useState<GameBoardStructure>(emptyBoard);
 
   const [gameWinner, setGameWinner] = useState<GameWinnerType>(null);
+
+  const [isGameFinished, setIsGameFinished] = useState<boolean>(false);
 
   const [playerTurn, setPlayerTurn] = useState<playerTurnType>(
     playerTurnType.one
@@ -53,28 +34,41 @@ export function useGameSystem(): useGameSystemReturnType {
     if (gameWinner) {
       return;
     }
-
     const tempGameBoard: GameBoardStructure = [...gameBoard];
 
     tempGameBoard[row][column] = playerTurn === playerTurnType.one ? "X" : "O";
 
     setGameBoard(tempGameBoard);
 
+    setPlayerTurn(isPlayerOne ? playerTurnType.two : playerTurnType.one);
+
     if (checkBoardForWin(gameBoard)) {
       setGameWinner(playerTurn);
+      setWinner(playerTurn);
+      setIsGameFinished(true);
+      return;
     }
 
     if (checkifGameTied(gameBoard)) {
-      setGameWinner("tied");
+      setWinner(null);
+      setIsGameFinished(true);
+      return;
     }
-    setPlayerTurn(isPlayerOne ? playerTurnType.two : playerTurnType.one);
   };
 
   const resetBoard = () => {
     setGameBoard(emptyBoard);
     setPlayerTurn(playerTurnType.one);
     setGameWinner(null);
+    setIsGameFinished(false);
   };
 
-  return { gameBoard, playerTurn, gameWinner, resetBoard, setItemInGameBoard };
+  return {
+    gameBoard,
+    playerTurn,
+    gameWinner,
+    resetBoard,
+    setItemInGameBoard,
+    isGameFinished,
+  };
 }

@@ -1,4 +1,4 @@
-import { GameBoardStructure, GameMark } from "./useGameSystem";
+import { GameBoardStructure, GameMark } from "./types";
 
 export const isHorizontalWin = (gameBoard: GameBoardStructure) => {
   let hasWon = false;
@@ -37,7 +37,6 @@ export const isDiagonalWin = (gb: GameBoardStructure) => {
 };
 
 export const checkBoardForWin = (gameBoard: GameBoardStructure) => {
-  console.table(gameBoard);
   if (isHorizontalWin(gameBoard)) return true;
   if (isVerticalWin(gameBoard)) return true;
   if (isDiagonalWin(gameBoard)) return true;
@@ -47,3 +46,7 @@ export const checkBoardForWin = (gameBoard: GameBoardStructure) => {
 
 const areAllItemsInArrEqual = (arr: GameMark[]) =>
   arr.every((v) => v === arr[0] && arr[0] !== null);
+
+export const checkifGameTied = (gameBoard: GameBoardStructure) => {
+  return gameBoard.flat(1).every((item) => item !== null);
+};
