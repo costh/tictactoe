@@ -13,7 +13,7 @@ export const Square: React.FC<SquareProps> = ({ ...props }) => {
   return (
     <button
       data-xy-position={`${positionX}${positionY}`}
-      className={`w-full h-40 flex items-center justify-center flex-col bg-blue-500 border-2 ${
+      className={`w-full h-32 sm:h-40 flex items-center justify-center flex-col bg-blue-500 border-2 ${
         disabled ? "cursor-not-allowed" : ""
       }`}
       onClick={handleSquareClick}

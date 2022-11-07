@@ -67,7 +67,7 @@ const Game = () => {
         <div className="py-4">
           <h2 className="font-bold" data-qa="currently-playing">
             Currently Playing:
-            <span className="font-medium p-3 bg-slate-600 text-white rounded-lg">
+            <span className="font-medium p-3 ml-2 bg-slate-600 text-white rounded-lg">
               {getCustomName(playerTurn)}
             </span>
           </h2>

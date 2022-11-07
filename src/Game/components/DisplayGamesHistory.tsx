@@ -18,8 +18,8 @@ const DisplayGamesHistory: React.FC<Props> = ({ scoreBoardGames }) => {
 
   return (
     <div className="w-full flex flex-col items-center">
-      <h1 className="font-bold text-lg">Games played (latest first)</h1>
-      <div className="w-full flex justify-between pb-4 font-bold">
+      <h1 className="font-bold text-lg text-blue-800">Games played (latest first)</h1>
+      <div className="w-full flex justify-between pb-4 font-bold text-blue-700">
         <span>Players</span>
         <span>Game status</span>
       </div>
