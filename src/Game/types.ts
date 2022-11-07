@@ -5,4 +5,5 @@ export type SquareProps = {
   gameValue: GameMark;
   positionX: number;
   positionY: number;
+  disabled: boolean;
 };

@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { useScoreContext } from "../../_Context/ScoreContext";
-import { useScoreBoard } from "../ScoreBoard/useScoreBoard";
 import { checkBoardForWin, checkifGameTied } from "./helpers";
 import {
   GameBoardStructure,
@@ -22,7 +21,7 @@ export function useGameSystem(): useGameSystemReturnType {
 
   const [gameWinner, setGameWinner] = useState<GameWinnerType>(null);
 
-  const [isGameFinished, setIsGameFinished] = useState<boolean>(false);
+  const [isGameInProgress, setIsGameInProgress] = useState<boolean>(false);
 
   const [playerTurn, setPlayerTurn] = useState<playerTurnType>(
     playerTurnType.one
@@ -31,7 +30,7 @@ export function useGameSystem(): useGameSystemReturnType {
   const isPlayerOne = playerTurn === playerTurnType.one;
 
   const setItemInGameBoard = (row: number, column: number): void => {
-    if (gameWinner) {
+    if (gameWinner || !isGameInProgress) {
       return;
     }
     const tempGameBoard: GameBoardStructure = [...gameBoard];
@@ -44,14 +43,15 @@ export function useGameSystem(): useGameSystemReturnType {
 
     if (checkBoardForWin(gameBoard)) {
       setGameWinner(playerTurn);
-      setIsGameFinished(true);
+      setIsGameInProgress(false);
       setScoreBoardWinner(playerTurn);
       return;
     }
 
     if (checkifGameTied(gameBoard)) {
       setScoreBoardWinner(null);
-      setIsGameFinished(true);
+      setGameWinner("tied");
+      setIsGameInProgress(false);
       return;
     }
   };
@@ -60,7 +60,7 @@ export function useGameSystem(): useGameSystemReturnType {
     setGameBoard(emptyBoard);
     setPlayerTurn(playerTurnType.one);
     setGameWinner(null);
-    setIsGameFinished(false);
+    setIsGameInProgress(true);
   };
 
   return {
@@ -69,6 +69,6 @@ export function useGameSystem(): useGameSystemReturnType {
     gameWinner,
     resetBoard,
     setItemInGameBoard,
-    isGameFinished,
+    isGameInProgress,
   };
 }

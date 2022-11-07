@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { playerTurnType } from "../GameSystem/types";
 import { ScoreBoardType, gameState } from "./types";
 
@@ -24,7 +24,6 @@ export const useScoreBoard = (): ScoreBoardReturnType => {
   );
 
   const setWinner = (winner: playerTurnType | null) => {
-    const sb = scoreBoard;
     const games = [...scoreBoard.games];
     const tally = [...scoreBoard.tally];
     let currentWinner = () => {
@@ -32,8 +31,8 @@ export const useScoreBoard = (): ScoreBoardReturnType => {
     };
 
     games.push({
-      player1: playerOneName,
-      player2: playerTwoName,
+      player1: playerOneName === "" ? playerTurnType.one : playerOneName,
+      player2: playerTwoName === "" ? playerTurnType.two : playerTwoName,
       winner: currentWinner(),
       isTied: winner === null,
     });

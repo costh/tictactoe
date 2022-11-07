@@ -4,7 +4,8 @@ import { ReactComponent as XIcon } from "../../_Assets/x.svg";
 import { ReactComponent as OIcon } from "../../_Assets/o.svg";
 
 export const Square: React.FC<SquareProps> = ({ ...props }) => {
-  const { handleSquareClick, gameValue, positionX, positionY } = props;
+  const { handleSquareClick, gameValue, positionX, positionY, disabled } =
+    props;
 
   const isXActive = gameValue === "X";
   const isYActive = gameValue === "O";
@@ -12,9 +13,11 @@ export const Square: React.FC<SquareProps> = ({ ...props }) => {
   return (
     <button
       data-xy-position={`${positionX}${positionY}`}
-      className=" w-full h-40 flex items-center justify-center flex-col bg-blue-500 border-2"
+      className={`w-full h-40 flex items-center justify-center flex-col bg-blue-500 border-2 ${
+        disabled ? "cursor-not-allowed" : ""
+      }`}
       onClick={handleSquareClick}
-      disabled={gameValue !== null}
+      disabled={gameValue !== null || disabled}
       aria-label={`${!gameValue ? "Unplayed Tile" : gameValue}`}
     >
       <XIcon

@@ -4,10 +4,11 @@ import { Square } from "./Square";
 
 type Props = {
   gameBoard: GameBoardStructure;
+  isGameInProgress: boolean
   handleClick: (column: number, row: number) => void;
 };
 
-function DisplayGameBoard({ gameBoard, handleClick }: Props) {
+function DisplayGameBoard({ gameBoard, handleClick, isGameInProgress }: Props) {
   return (
     <div className="grid grid-cols-3 items-center place-items-center">
       {gameBoard.map((row: any[], rowIndex: number) => (
@@ -19,6 +20,7 @@ function DisplayGameBoard({ gameBoard, handleClick }: Props) {
               positionY={columnIndex}
               handleSquareClick={() => handleClick(rowIndex, columnIndex)}
               gameValue={item}
+              disabled={isGameInProgress}
             />
           ))}
         </React.Fragment>

@@ -11,13 +11,13 @@ export type GameBoardStructure = [
   [GameMark, GameMark, GameMark]
 ];
 
-export type GameWinnerType = playerTurnType | null;
+export type GameWinnerType = playerTurnType | null | "tied";
 
 export type useGameSystemReturnType = {
   gameBoard: GameBoardStructure;
   playerTurn: playerTurnType;
   gameWinner: GameWinnerType;
-  isGameFinished: Boolean;
+  isGameInProgress: boolean;
   resetBoard: () => void;
   setItemInGameBoard: (row: number, column: number) => void;
 };
